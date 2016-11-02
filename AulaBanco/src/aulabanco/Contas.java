@@ -5,21 +5,31 @@
  */
 package aulabanco;
 
+import java.util.concurrent.locks.ReentrantLock;
+
 public class Contas {
    private float quant;
    private int id;
+   private ReentrantLock instlLock;
    private static int incr=0;
+   public static ReentrantLock lk = new ReentrantLock();
    
    public Contas(float q){
        this.quant=q;
-       this.id=incr;
+       this.instlLock=new ReentrantLock();
+       lk.lock();//para poder incrementar, bloqueio o meu incrementer 
+       this.id=incr;       
        incr++;
+       lk.unlock();
    }
    
    public Contas(){
        quant=0;
-       id=incr;
+       this.instlLock=new ReentrantLock();
+       lk.lock();
+       this.id=incr;
        incr++;
+       lk.unlock();
    }
    
    public int getID(){
@@ -27,11 +37,17 @@ public class Contas {
    }
    
    public float getQuant(){
+       float coisa;
+       instlLock.lock();
+       coisa=this.quant;
+       instlLock.unlock();
        return this.quant;
    }
    
-   public void setQuant(float q){
+   public synchronized void setQuant(float q){
+       instlLock.lock();
        this.quant=q;
+       instlLock.unlock();
    }
    
       
