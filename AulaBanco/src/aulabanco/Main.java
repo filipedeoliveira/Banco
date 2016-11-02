@@ -7,10 +7,7 @@ package aulabanco;
 
 import java.util.ArrayList;
 
-/**
- *
- * @author picaz
- */
+
 public class Main {
     public static void main(String[] args) throws InterruptedException{
         AulaBanco ab=new AulaBanco();
